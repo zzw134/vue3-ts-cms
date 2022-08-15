@@ -52,10 +52,15 @@ class ZWRequest {
       (res) => {
         this.loading?.close()
         const data = res.data
-        if (data.returnCode === '-1001') {
-          console.log('请求失败')
-        } else {
+        if (data) {
+          // if (data.code === '0') {
+          //   console.log('请求失败')
+          // } else {
+          //   return data
+          // }
           return data
+        } else {
+          throw new Error(res.request.response)
         }
       },
       (err) => {

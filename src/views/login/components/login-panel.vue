@@ -1,8 +1,8 @@
 <template>
   <div class="login-panel">
     <h1 class="title">后台管理登录</h1>
-    <el-tabs type="border-card" class="demo-tabs" stretch>
-      <el-tab-pane>
+    <el-tabs type="border-card" class="demo-tabs" stretch v-model="currentTab">
+      <el-tab-pane name="account">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon class="icon"><i-ep-avatar /></el-icon>
@@ -11,14 +11,14 @@
         </template>
         <login-account ref="accountRef"></login-account>
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon class="icon"><i-ep-cellphone /></el-icon>
             <span>手机登录</span>
           </span>
         </template>
-        <login-phone></login-phone>
+        <login-phone ref="phoneRef"></login-phone>
       </el-tab-pane>
     </el-tabs>
     <div class="control">
@@ -42,15 +42,24 @@ export default defineComponent({
     LoginPhone
   },
   setup() {
-    const isRememberPWD = ref(false)
+    const isRememberPWD = ref(true)
     const accountRef = ref<InstanceType<typeof LoginAccount>>()
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+    const currentTab = ref('account')
+
     function handleLogin() {
-      accountRef.value?.loginAction()
+      if (currentTab.value === 'account') {
+        accountRef.value?.loginAction(isRememberPWD.value)
+      } else {
+        phoneRef.value?.loginAction()
+      }
     }
     return {
       isRememberPWD,
       handleLogin,
-      accountRef
+      accountRef,
+      phoneRef,
+      currentTab
     }
   }
 })

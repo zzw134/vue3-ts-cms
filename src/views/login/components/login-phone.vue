@@ -1,6 +1,7 @@
 <template>
   <div class="login-phone-container">
     <el-form
+      ref="phoneFormRef"
       :rules="rules"
       label-position="right"
       label-width="70px"
@@ -20,8 +21,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { rules } from '../config/phone_config'
+import type { FormInstance } from 'element-plus'
 
 export default defineComponent({
   setup() {
@@ -29,9 +31,20 @@ export default defineComponent({
       number: '',
       code: ''
     })
+    const phoneFormRef = ref<FormInstance>()
+
+    const loginAction = () => {
+      phoneFormRef.value?.validate((valid) => {
+        if (valid) {
+          console.log(222)
+        }
+      })
+    }
     return {
       phone,
-      rules
+      rules,
+      phoneFormRef,
+      loginAction
     }
   }
 })

@@ -1,29 +1,22 @@
 # vue3-ts-cms
 
-## Project setup
+## 安装依赖
 
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 开启本地服务
 
 ```
 npm run serve
 ```
+登录账号：coderwhy，密码：123456
 
-### Compiles and minifies for production
+### 代码打包
 
 ```
 npm run build
 ```
 
-### Lints and fixes files
 
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).

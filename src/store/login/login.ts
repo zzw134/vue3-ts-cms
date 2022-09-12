@@ -9,6 +9,7 @@ import {
 import type { IAccountType } from '@/service/request/login/type'
 import localCache from '@/utils/localCache'
 import router from '@/router'
+import { mapMenus, menuMapToPermissions } from '@/utils/mapMenus'
 
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -16,7 +17,10 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: localCache.getCache('token') || '',
       userInfo: localCache.getCache('userInfo') || {},
-      userMenus: localCache.getCache('userMenus') || {}
+      userMenus: localCache.getCache('userMenus') || {},
+      permissions: localCache.getCache('userMenus')
+        ? menuMapToPermissions(localCache.getCache('userMenus'))
+        : []
     }
   },
   getters: {},
@@ -29,16 +33,21 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeRoleMenu(state, userMenus: any) {
       state.userMenus = userMenus
+      const routes = mapMenus(userMenus)
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
+      const permissions = menuMapToPermissions(userMenus)
+      state.permissions = permissions
     }
   },
   actions: {
-    async accountLoginAction({ commit }, payload: IAccountType) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccountType) {
       // 登录获取token
       const loginResult = await accountLoginRequest(payload)
       const { id, token } = loginResult.data
       localCache.setCache('token', token)
       commit('changeToken', token)
-      router.push('/main')
 
       // 获取用户信息
       const userInfoResult = await requestUserInfoById(id)
@@ -50,6 +59,10 @@ const loginModule: Module<ILoginState, IRootState> = {
       const userMenuResult = await requestUserMenuByRoleId(userInfo.role.id)
       localCache.setCache('userMenus', userMenuResult.data)
       commit('changeRoleMenu', userMenuResult.data)
+
+      dispatch('getInitialDataList', null, { root: true })
+
+      router.push('/main')
     }
   }
 }

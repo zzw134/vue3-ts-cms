@@ -1,13 +1,17 @@
 <template>
-  <div>Main</div>
-  <el-button type="primary">666</el-button>
+  <div class="list">
+    <h2>list</h2>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: ''
+  name: 'list',
+  setup() {
+    return {}
+  }
 })
 </script>
 

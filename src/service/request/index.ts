@@ -73,7 +73,7 @@ class ZWRequest {
     )
   }
 
-  request<T>(config: ZWRequestConfig<T>): Promise<T> {
+  request<T = any>(config: ZWRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       if (
         config.showLoading !== undefined &&
@@ -105,19 +105,19 @@ class ZWRequest {
     })
   }
 
-  get<T>(config: ZWRequestConfig<T>): Promise<T> {
+  get<T = any>(config: ZWRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T>(config: ZWRequestConfig<T>): Promise<T> {
+  post<T = any>(config: ZWRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
 
-  delete<T>(config: ZWRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: ZWRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
 
-  patch<T>(config: ZWRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: ZWRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }

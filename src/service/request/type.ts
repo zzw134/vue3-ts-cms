@@ -11,3 +11,8 @@ export interface ZWRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
   interceptors?: ZWRequestInterceptors<T>
   showLoading?: boolean
 }
+
+export interface IDataType<T = any> {
+  code: number
+  data: T
+}
